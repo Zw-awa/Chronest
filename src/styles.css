@@ -1,0 +1,738 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap");
+
+:root {
+  color-scheme: light;
+  font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --canvas-top: #f6f1f8;
+  --canvas-bottom: #eef4fa;
+  --panel-fill:
+    radial-gradient(circle at 78% 8%, rgba(241, 238, 255, 0.88), transparent 28%),
+    radial-gradient(circle at 28% 92%, rgba(226, 238, 253, 0.72), transparent 34%),
+    radial-gradient(circle at 88% 92%, rgba(251, 247, 221, 0.66), transparent 18%),
+    linear-gradient(180deg, rgba(255, 249, 252, 0.95), rgba(244, 248, 252, 0.94));
+  --line-soft: rgba(78, 92, 110, 0.12);
+  --text-primary: #20252c;
+  --text-secondary: #636c76;
+  --text-muted: #a9b1ba;
+  --accent-blue: #0d75d9;
+  --accent-blue-soft: #e8f3ff;
+  --hover-fill: rgba(255, 255, 255, 0.34);
+  --radius-panel: 0;
+  --radius-control: 8px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: var(--canvas-top);
+}
+
+body {
+  height: 100%;
+  color: var(--text-primary);
+  background: linear-gradient(180deg, #f6f1f8, #eef4fa);
+  overflow: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+.shell,
+.shell * {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.shell {
+  width: min(100vw, 100%);
+  margin: 0 auto;
+  height: 100%;
+}
+
+.shell-minimal {
+  display: grid;
+  gap: 0;
+  grid-template-rows: auto 1fr;
+}
+
+.widget-shell {
+  height: 100%;
+  background: var(--panel-fill);
+  backdrop-filter: blur(22px) saturate(120%);
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 82px;
+  padding: 15px 14px 12px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.topbar-dragger {
+  flex: 1;
+  min-width: 0;
+  cursor: grab;
+}
+
+.topbar-dragger:active {
+  cursor: grabbing;
+}
+
+.topbar-copy {
+  display: grid;
+  gap: 3px;
+}
+
+.topbar-date {
+  color: var(--text-primary);
+  font-size: 0.99rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.topbar-lunar {
+  color: var(--text-secondary);
+  font-size: 0.83rem;
+  line-height: 1.3;
+}
+
+.topbar-actions {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.settings-gear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  border: 1px solid rgba(128, 138, 150, 0.16);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease),
+    background-color 160ms var(--ease),
+    color 160ms var(--ease);
+}
+
+.settings-gear:hover {
+  transform: translateY(-1px) rotate(12deg);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+}
+
+.settings-gear:active {
+  transform: translateY(1px) scale(0.96);
+}
+
+.inline-language {
+  display: inline-flex;
+  align-items: center;
+}
+
+.inline-language-compact {
+  min-height: 32px;
+}
+
+.language-select {
+  min-width: 35px;
+  min-height: 31px;
+  padding: 0 8px;
+  border-radius: var(--radius-control);
+  border: 1px solid rgba(128, 138, 150, 0.16);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-primary);
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease),
+    border-color 160ms var(--ease),
+    transform 160ms var(--ease);
+}
+
+.language-select:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(109, 121, 138, 0.26);
+}
+
+.language-select:focus-visible {
+  border-color: rgba(13, 117, 217, 0.46);
+  box-shadow: 0 0 0 3px rgba(13, 117, 217, 0.12);
+}
+
+.calendar-stage {
+  height: 100%;
+  padding: 18px 14px 14px;
+}
+
+.surface-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.month-heading {
+  display: flex;
+  align-items: center;
+}
+
+.month-title {
+  color: var(--text-primary);
+  font-size: 0.99rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  color: #8f949a;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease),
+    color 160ms var(--ease),
+    transform 160ms var(--ease);
+}
+
+.calendar-nav-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+  color: #5e6873;
+  transform: translateY(-1px);
+}
+
+.calendar-nav-button:active {
+  transform: translateY(1px) scale(0.94);
+}
+
+.calendar-today-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.52);
+  color: var(--text-secondary);
+  font-size: 0.66rem;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease),
+    color 160ms var(--ease),
+    transform 160ms var(--ease);
+}
+
+.calendar-today-button:hover {
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.calendar-today-button:active {
+  transform: translateY(1px) scale(0.96);
+}
+
+.calendar-shell {
+  display: block;
+}
+
+.calendar-months,
+.calendar-month {
+  display: block;
+}
+
+.calendar-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.weekday-cell {
+  padding: 0 0 12px;
+  text-align: center;
+  min-height: 30px;
+  color: var(--text-primary);
+  font-size: 0.71rem;
+  font-weight: 500;
+}
+
+.calendar-weeks {
+  display: table-row-group;
+}
+
+.calendar-week {
+  display: table-row;
+}
+
+.calendar-day-cell {
+  padding: 0 0 9px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.calendar-cell {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3px;
+  width: 45px;
+  height: 45px;
+  min-height: 45px;
+  padding: 7px 2px 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease),
+    color 160ms var(--ease),
+    transform 160ms var(--ease),
+    box-shadow 160ms var(--ease),
+    opacity 160ms var(--ease);
+}
+
+.calendar-cell:hover {
+  background: var(--hover-fill);
+  transform: translateY(-1px);
+}
+
+.calendar-cell:focus-visible {
+  outline: none;
+  background: rgba(13, 117, 217, 0.08);
+}
+
+.calendar-cell:active {
+  transform: scale(0.97);
+}
+
+.calendar-cell.is-outside {
+  opacity: 0.34;
+}
+
+.calendar-cell.is-selected {
+  background: rgba(13, 117, 217, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(13, 117, 217, 0.22);
+}
+
+.calendar-cell.is-selected .calendar-number,
+.calendar-cell.is-selected .calendar-meta {
+  color: var(--accent-blue);
+}
+
+.calendar-cell.is-today {
+  background: var(--accent-blue);
+  box-shadow:
+    0 6px 18px rgba(13, 117, 217, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.calendar-cell.is-today .calendar-number,
+.calendar-cell.is-today .calendar-meta {
+  color: white;
+}
+
+.calendar-cell.is-festival .calendar-meta {
+  color: var(--accent-blue);
+}
+
+.calendar-cell.is-today.is-festival .calendar-meta {
+  color: white;
+}
+
+.calendar-number {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1;
+  transition:
+    transform 160ms var(--ease),
+    color 160ms var(--ease);
+}
+
+.calendar-meta {
+  color: var(--text-secondary);
+  font-size: 0.54rem;
+  line-height: 1.08;
+  white-space: nowrap;
+  transition:
+    transform 160ms var(--ease),
+    color 160ms var(--ease),
+    opacity 160ms var(--ease);
+}
+
+.calendar-cell:hover .calendar-number,
+.calendar-cell:hover .calendar-meta {
+  transform: translateY(-1px);
+}
+
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(237, 241, 246, 0.34);
+  backdrop-filter: blur(10px);
+  z-index: 20;
+  animation: settings-fade-in 180ms var(--ease);
+}
+
+.settings-dialog {
+  position: relative;
+  width: min(320px, calc(100vw - 28px));
+  min-height: 0;
+  max-height: min(460px, calc(100vh - 36px));
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), transparent 38%),
+    linear-gradient(180deg, rgba(252, 252, 253, 0.97), rgba(241, 244, 247, 0.97));
+  border: 1px solid rgba(132, 145, 164, 0.16);
+  box-shadow:
+    0 24px 48px rgba(73, 87, 104, 0.14),
+    0 6px 14px rgba(91, 107, 124, 0.08);
+  animation: settings-dialog-in 220ms var(--ease);
+  overflow: hidden;
+}
+
+.settings-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.settings-dialog-title-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-dialog-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.settings-back,
+.settings-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease),
+    transform 160ms var(--ease),
+    color 160ms var(--ease);
+}
+
+.settings-back:hover,
+.settings-close:hover {
+  background: rgba(255, 255, 255, 0.74);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.settings-stack {
+  position: relative;
+  display: grid;
+  align-content: start;
+  min-height: 0;
+  flex: 1;
+}
+
+.settings-panel {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding-bottom: 4px;
+  transition:
+    opacity 180ms var(--ease),
+    transform 220ms var(--ease);
+  max-height: calc(min(460px, 100vh - 36px) - 74px);
+  overflow-y: auto;
+}
+
+.settings-panel.is-active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.settings-panel.is-hidden {
+  opacity: 0;
+  transform: translateX(18px);
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.settings-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease),
+    background-color 160ms var(--ease),
+    box-shadow 160ms var(--ease);
+}
+
+.settings-menu-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 10px 18px rgba(87, 102, 119, 0.08);
+}
+
+.settings-menu-button:active {
+  transform: translateY(1px) scale(0.992);
+}
+
+.settings-menu-button.is-active {
+  background: rgba(13, 117, 217, 0.1);
+  color: var(--accent-blue);
+}
+
+.settings-menu-chevron {
+  color: var(--text-muted);
+}
+
+.settings-note {
+  display: grid;
+  gap: 6px;
+  padding: 14px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.56);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.settings-note strong {
+  color: var(--text-primary);
+}
+
+.settings-note-rich {
+  margin-bottom: 10px;
+}
+
+.settings-inline-status {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(13, 117, 217, 0.08);
+  color: var(--accent-blue);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.settings-inline-error {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(214, 68, 68, 0.1);
+  color: #c63b3b;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.github-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.58);
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease),
+    background-color 160ms var(--ease);
+}
+
+.github-entry:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.github-icon {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+}
+
+.settings-confirm {
+  animation: settings-confirm-in 180ms var(--ease);
+}
+
+.settings-confirm-panel {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding: 10px 2px 0;
+}
+
+.github-confirm-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.settings-confirm-title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.84rem;
+}
+
+.settings-confirm-copy {
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.settings-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.settings-confirm-button {
+  min-width: 58px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease),
+    background-color 160ms var(--ease),
+    color 160ms var(--ease);
+}
+
+.settings-confirm-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.settings-confirm-button.is-primary {
+  background: rgba(13, 117, 217, 0.1);
+  color: var(--accent-blue);
+}
+
+.settings-confirm-button.is-danger {
+  background: rgba(214, 68, 68, 0.12);
+  color: #c63b3b;
+}
+
+.settings-confirm-button.is-danger:hover {
+  background: rgba(214, 68, 68, 0.2);
+}
+
+@keyframes settings-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes settings-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes settings-confirm-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    min-height: 82px;
+    padding: 15px 14px 12px;
+  }
+
+  .calendar-stage {
+    padding: 18px 14px 14px;
+  }
+
+  .calendar-cell {
+    width: 45px;
+    height: 45px;
+    min-height: 45px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,36 @@
+name: Question or discussion (问题或讨论)
+description: Ask a usage question, architecture question, or start a scoped discussion.（提使用问题、架构问题，或发起范围明确的讨论）
+title: "[Question] "
+labels: ["question"]
+body:
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic (主题)
+      options:
+        - Usage (使用方式)
+        - Architecture (架构设计)
+        - Plugin system (插件系统)
+        - Scheduling behavior (调度行为)
+        - Git automation (Git 自动化)
+        - Open source / project direction (开源与项目方向)
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Question or discussion point (问题或讨论点)
+      description: State your question clearly.（请清晰描述你的问题或讨论点）
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context (上下文)
+      description: Add background, screenshots, constraints, or related links if helpful.（如有必要，请补充背景、截图、限制条件或相关链接）
+  - type: textarea
+    id: expected
+    attributes:
+      label: What kind of answer do you need? (你希望得到什么样的回答？)
+      description: Example: quick usage guidance, product tradeoff advice, implementation direction, or confirmation.（例如：快速使用说明、产品权衡建议、实现方向建议，或方案确认）
+

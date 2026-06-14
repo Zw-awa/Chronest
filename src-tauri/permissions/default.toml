@@ -1,0 +1,35 @@
+[default]
+description = "Default permissions for the Chronest app."
+permissions = [
+  "core:path:default",
+  "core:event:default",
+  "core:window:default",
+  "core:window:allow-start-dragging",
+  "core:window:allow-set-effects",
+  "core:window:allow-set-background-color",
+  "core:webview:default",
+  "core:webview:allow-set-webview-background-color",
+  "core:app:default",
+  "core:image:default",
+  "core:resources:default",
+  "core:menu:default",
+  "core:tray:default",
+  "allow-open-external-url",
+  "allow-clear-history-records",
+  "allow-choose-storage-location"
+]
+
+[[permission]]
+identifier = "allow-open-external-url"
+description = "Allows opening external URLs from the Chronest app."
+commands.allow = ["open_external_url"]
+
+[[permission]]
+identifier = "allow-clear-history-records"
+description = "Allows clearing task run history from the Chronest app."
+commands.allow = ["clear_history_records"]
+
+[[permission]]
+identifier = "allow-choose-storage-location"
+description = "Allows selecting and saving a custom data storage location."
+commands.allow = ["choose_storage_location"]

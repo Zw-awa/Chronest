@@ -1,0 +1,33 @@
+{
+  "name": "chronest",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A local-first desktop app for calendar-driven automation and plugin-powered scheduled jobs.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 1420 --strictPort",
+    "build": "tsc && vite build",
+    "check": "node scripts/check-all.mjs",
+    "check:arch": "node scripts/check-architecture.mjs",
+    "check:rust-layout": "node scripts/check-rust-module-layout.mjs",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.0.0",
+    "date-fns": "^4.4.0",
+    "lunar-javascript": "^1.7.7",
+    "react": "^19.0.0",
+    "react-day-picker": "^10.0.1",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^7.0.0"
+  }
+}

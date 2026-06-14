@@ -1,0 +1,38 @@
+name: Bug report (问题反馈)
+description: Report a defect or regression in Chronest.（报告缺陷或回归问题）
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary (问题概述)
+      description: What is broken?（哪里出了问题？）
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce (复现步骤)
+      description: Provide exact steps.（请提供精确复现步骤）
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior (预期行为)
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior (实际行为)
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment (环境信息)
+      description: OS, app version or commit, and any relevant runtime details.（系统、版本、commit 及相关运行环境信息）
+    validations:
+      required: true

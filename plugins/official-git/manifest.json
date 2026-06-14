@@ -1,0 +1,10 @@
+{
+  "id": "official-git",
+  "name": "Git Automation",
+  "version": "0.1.0",
+  "kind": "official",
+  "description": "Schedules git add/commit flows and prepares the AI commit message path.",
+  "capabilities": ["git", "exec", "fs", "secrets"],
+  "official": true
+}
+

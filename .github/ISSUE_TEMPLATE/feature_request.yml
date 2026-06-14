@@ -1,0 +1,23 @@
+name: Feature request (功能建议)
+description: Propose a product or developer-facing improvement.（提出产品或开发体验改进建议）
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem (要解决的问题)
+      description: What problem should this solve?（这个需求要解决什么问题？）
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution (建议方案)
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and tradeoffs (范围与权衡)
+      description: Note any UX, runtime, security, or plugin implications.（补充 UX、运行时、安全或插件方面影响）
